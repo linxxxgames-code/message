@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Особое послание для тебя ✨</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-height: -webkit-fill-available; 
+            background: linear-gradient(135deg, #0f0c20, #150019, #2b002c);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            height: -webkit-fill-available;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            border-radius: 24px;
+            width: 85%;
+            max-width: 380px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 20px rgba(218, 112, 214, 0.05);
+            text-align: center;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        .text-container {
+            font-size: 18px;
+            line-height: 1.6;
+            min-height: 150px; 
+            white-space: pre-wrap;
+            display: inline-block;
+            text-align: left;
+            width: 100%;
+        }
+
+        /* Мигающий и пульсирующий курсор-сердечко */
+        .cursor {
+            display: inline-block;
+            margin-left: 5px;
+            vertical-align: middle;
+            font-size: 20px;
+            animation: heartBlink 1s infinite alternate;
+        }
+
+        @keyframes heartBlink {
+            0% { opacity: 0.3; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px rgba(255, 105, 180, 0.8); }
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #ff69b4, #da70d6);
+            border: none;
+            color: white;
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(218, 112, 214, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .start-btn:hover, .start-btn:active {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(218, 112, 214, 0.5);
+        }
+
+        .sparkle {
+            position: absolute;
+            color: rgba(218, 112, 214, 0.4);
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+            text-shadow: 0 0 10px rgba(218, 112, 214, 0.6);
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-15vh) rotate(180deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <button class="start-btn" id="startBtn">У тебя одно новое сообщение ✉️</button>
+        <div class="text-container" id="textTarget" style="display: none;"></div>
+        <span class="cursor" id="cursor" style="display: none;">❤️</span>
+    </div>
+
+    <script>
+        // Текст без смайликов и с твоей концовкой
+        const messageText = "Привет! Ну что, как ты? Как настроение? Все хорошо?\n\nРешил написать для тебя файл, который ты можешь всегда открывать, даже если перестанем дружить.\n\nСпасибо, что ты есть! Ты самая лучшая! ✨💖";
+        
+        const startBtn = document.getElementById('startBtn');
+        const textTarget = document.getElementById('textTarget');
+        const cursor = document.getElementById('cursor');
+        
+        let index = 0;
+
+        function typeWriter() {
+            if (index < messageText.length) {
+                textTarget.textContent += messageText.charAt(index);
+                index++;
+                setTimeout(typeWriter, 40);
+            } else {
+                // Оставляем сердечко мигать и пульсировать в конце
+                cursor.style.display = 'inline-block';
+            }
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.innerHTML = '✨';
+            
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.fontSize = Math.random() * 12 + 10 + 'px';
+            sparkle.style.animationDuration = Math.random() * 2 + 3 + 's';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 4500);
+        }
+
+        startBtn.addEventListener('click', () => {
+            startBtn.style.display = 'none';
+            textTarget.style.display = 'inline-block';
+            cursor.style.display = 'inline-block';
+            
+            typeWriter();
+            setInterval(createSparkle, 400);
+        });
+    </script>
+</body>
+</html>
